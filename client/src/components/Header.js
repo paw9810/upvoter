@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -17,8 +18,15 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 
+const useStyles = makeStyles({
+  margin: {
+    marginBottom: "25px",
+  },
+});
+
 const Header = ({ location }) => {
   const [menuState, setMenuState] = useState(false);
+  const classes = useStyles();
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -31,7 +39,7 @@ const Header = ({ location }) => {
   };
 
   return (
-    <Box component="header">
+    <Box className={classes.margin} component="header">
       <AppBar position="sticky">
         <Toolbar>
           <IconButton
