@@ -17,10 +17,15 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   margin: {
     marginBottom: "25px",
+  },
+  links: {
+    textDecoration: "none",
+    color: "inherit",
   },
 });
 
@@ -56,42 +61,54 @@ const Header = ({ location }) => {
                 onClick={toggleDrawer(false)}
                 onKeyDown={toggleDrawer(false)}
               >
-                <ListItem button>
-                  <ListItemIcon>
-                    <HomeIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Home" />
-                </ListItem>
-                <ListItem button>
-                  <ListItemIcon>
-                    <VpnKeyIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Login" />
-                </ListItem>
-                <ListItem button>
-                  <ListItemIcon>
-                    <VpnKeyIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Register" />
-                </ListItem>
-                <ListItem button>
-                  <ListItemIcon>
-                    <AccountCircleIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Profile" />
-                </ListItem>
-                <ListItem button>
-                  <ListItemIcon>
-                    <AddCircleIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Add post" />
-                </ListItem>
-                <ListItem button>
-                  <ListItemIcon>
-                    <ExitToAppIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Logout" />
-                </ListItem>
+                <Link to="/" className={classes.links}>
+                  <ListItem button>
+                    <ListItemIcon>
+                      <HomeIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Home" />
+                  </ListItem>
+                </Link>
+                <Link to="/signin" className={classes.links}>
+                  <ListItem button>
+                    <ListItemIcon>
+                      <VpnKeyIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Login" />
+                  </ListItem>
+                </Link>
+                <Link to="/signup" className={classes.links}>
+                  <ListItem button>
+                    <ListItemIcon>
+                      <VpnKeyIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Register" />
+                  </ListItem>
+                </Link>
+                <Link to="/profile" className={classes.links}>
+                  <ListItem button>
+                    <ListItemIcon>
+                      <AccountCircleIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Profile" />
+                  </ListItem>
+                </Link>
+                <Link to="/" className={classes.links}>
+                  <ListItem button>
+                    <ListItemIcon>
+                      <AddCircleIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Add post" />
+                  </ListItem>
+                </Link>
+                <Link to="/" className={classes.links}>
+                  <ListItem button>
+                    <ListItemIcon>
+                      <ExitToAppIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Logout" />
+                  </ListItem>
+                </Link>
               </div>
             </List>
           </Drawer>
