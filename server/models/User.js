@@ -17,6 +17,11 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
         allowNull: false,
       },
+      email: {
+        type: DataTypes.STRING(255),
+        unique: true,
+        allowNull: false,
+      },
       password: {
         type: DataTypes.STRING(255),
         allowNull: false,
@@ -24,6 +29,9 @@ module.exports = (sequelize, DataTypes) => {
       role: {
         type: DataTypes.STRING(255),
         allowNull: false,
+      },
+      refreshToken: {
+        type: DataTypes.STRING(255),
       },
       karma: {
         type: DataTypes.INTEGER,
