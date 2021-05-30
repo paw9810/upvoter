@@ -54,6 +54,8 @@ router.post("/login", async (req, res) => {
 
       //CSRF
 
+      await user.update({ refreshToken: refreshToken });
+
       res.cookie("JWT", accessToken, {
         maxAge: 86400000,
         httpOnly: true,

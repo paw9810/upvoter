@@ -4,9 +4,7 @@ const db = require("../../models");
 const authenticate = require("../../auth");
 
 router.get("/all", authenticate, (req, res) => {
-  //db.user.findAll().then((users) => res.send(users));
-  const users = [{ id: 1, name: "Adam" }];
-  res.send(users);
+  db.user.findAll().then((users) => res.send(users));
 });
 
 module.exports = router;

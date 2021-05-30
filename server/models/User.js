@@ -31,11 +31,16 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       refreshToken: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.TEXT,
       },
       karma: {
         type: DataTypes.INTEGER,
         allowNull: false,
+      },
+      imageLocation: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        defaultValue: "defaultImage.png",
       },
     },
     {

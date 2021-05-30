@@ -18,7 +18,7 @@ router.get("/:postId", async (req, res) => {
 
 router.post("/addPost", authenticate, async (req, res) => {
   const fileName = `${Date.now()}_${req.files.postImage.name}`;
-  const path = __dirname + "/../../media/" + fileName;
+  const path = __dirname + "/../../media/posts/" + fileName;
   const accessToken = req.cookies.JWT;
   const decoded = await jwtDecode(accessToken);
   const title = req.body.title;
