@@ -14,3 +14,18 @@ exports.isTokenInDb = async (userId) => {
   if (user.refreshToken === null) throw new Error("no token in db");
   else return 1;
 };
+
+exports.deleteRefreshToken = async (token) => {
+  try {
+    await db.user.update(
+      { refreshToken: null },
+      {
+        where: {
+          refreshToken: token,
+        },
+      }
+    );
+  } catch (err) {
+    throw new Error(err.message);
+  }
+};

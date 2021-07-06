@@ -94,7 +94,9 @@ exports.login = async (req, res) => {
 exports.refresh = async (req, res) => {
   try {
     const refreshToken = req.cookies.JWTREFRESH;
-    if (refreshToken === null) return res.sendStatus(401);
+    console.log(typeof refreshToken);
+    if (refreshToken === null || refreshToken === undefined)
+      return res.sendStatus(401);
 
     const decoded = jwtDecode(refreshToken);
 
@@ -114,5 +116,19 @@ exports.refresh = async (req, res) => {
     res.send({ accessToken });
   } catch (err) {
     return res.status(403).send(err.message);
+  }
+};
+
+exports.logout = async (req, res) => {
+  try {
+    const refreshToken = req.cookies.JWTREFRESH;
+
+    await authService.deleteRefreshToken(refreshToken);
+    res.clearCookie("JWT");
+    res.clearCookie("JWTREFRESH");
+
+    res.redirect("/");
+  } catch (err) {
+    res.status(400).send(err.message);
   }
 };
