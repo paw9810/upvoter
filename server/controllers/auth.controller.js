@@ -2,14 +2,19 @@ const jwt = require("jsonwebtoken");
 const db = require("../models");
 const bcrypt = require("bcrypt");
 const jwtDecode = require("jwt-decode");
+const { body, validationResult } = require("express-validator");
 
 exports.register = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const name = req.body.name;
     const password = req.body.password;
     const email = req.body.email;
 
-    // TODO: validate
     if (name && password && email) {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
@@ -44,7 +49,8 @@ exports.login = async (req, res) => {
           { id: user.id },
           process.env.TOKEN_SECRET,
           {
-            expiresIn: 86400,
+            expiresIn: 20,
+            // expiresIn: 86400,
           }
         );
         const refreshToken = jwt.sign(
@@ -91,7 +97,8 @@ exports.refresh = async (req, res) => {
     const decoded = jwtDecode(refreshToken);
 
     const accessToken = jwt.sign({ id: decoded.id }, process.env.TOKEN_SECRET, {
-      expiresIn: 86400,
+      // expiresIn: 86400,
+      expiresIn: 20,
     });
 
     res.cookie("JWT", accessToken, {

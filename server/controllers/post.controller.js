@@ -1,10 +1,11 @@
 const db = require("../models");
 const jwtDecode = require("jwt-decode");
+const postService = require("../services/post.service");
 
 exports.getPost = async (req, res) => {
   try {
     const postId = req.params.postId;
-    const post = await db.post.findOne({ where: { id: postId } });
+    const post = await postService.getPost(postId);
 
     res.status(200).json({
       title: post.title,
@@ -21,26 +22,25 @@ exports.addPost = async (req, res) => {
   try {
     const fileName = `${Date.now()}_${req.files.postImage.name}`;
     const path = __dirname + "/../media/posts/" + fileName;
+
     const accessToken = req.cookies.JWT;
     const decoded = await jwtDecode(accessToken);
+
     const title = req.body.title;
     const tags = req.body.tags;
 
     await req.files.postImage.mv(path);
-  } catch (err) {
-    res.status(500).send(err);
-  }
 
-  try {
-    const post = await db.post.create({
-      title: title,
-      location: fileName,
-      tags: tags,
-      rating: 0,
-      userId: decoded.id,
-    });
+    const post = await postService.createPost(
+      title,
+      fileName,
+      tags,
+      0,
+      decoded.id
+    );
   } catch (err) {
-    res.status(401).send(err);
+    console.log(err);
+    res.status(400);
   }
 
   res.status(201).send("succesfully added image");
