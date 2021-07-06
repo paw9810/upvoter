@@ -1,12 +1,9 @@
-const express = require("express");
-const router = express.Router();
-const db = require("../../models");
-const authenticate = require("../../auth");
+const db = require("../models");
 const jwtDecode = require("jwt-decode");
 
-router.get("/:postId", async (req, res) => {
-  const postId = req.params.postId;
+exports.getPost = async (req, res) => {
   try {
+    const postId = req.params.postId;
     const post = await db.post.findOne({ where: { id: postId } });
 
     res.status(200).json({
@@ -18,16 +15,17 @@ router.get("/:postId", async (req, res) => {
   } catch (err) {
     res.status(404).send("post not found");
   }
-});
+};
 
-router.post("/addPost", authenticate, async (req, res) => {
-  const fileName = `${Date.now()}_${req.files.postImage.name}`;
-  const path = __dirname + "/../../media/posts/" + fileName;
-  const accessToken = req.cookies.JWT;
-  const decoded = await jwtDecode(accessToken);
-  const title = req.body.title;
-  const tags = req.body.tags;
+exports.addPost = async (req, res) => {
   try {
+    const fileName = `${Date.now()}_${req.files.postImage.name}`;
+    const path = __dirname + "/../media/posts/" + fileName;
+    const accessToken = req.cookies.JWT;
+    const decoded = await jwtDecode(accessToken);
+    const title = req.body.title;
+    const tags = req.body.tags;
+
     await req.files.postImage.mv(path);
   } catch (err) {
     res.status(500).send(err);
@@ -46,5 +44,4 @@ router.post("/addPost", authenticate, async (req, res) => {
   }
 
   res.status(201).send("succesfully added image");
-});
-module.exports = router;
+};

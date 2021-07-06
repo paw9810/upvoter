@@ -4,10 +4,10 @@ const dotenv = require("dotenv");
 const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 const fileUpload = require("express-fileupload");
-const userRoute = require("./routes/api/user");
-const authRoute = require("./routes/api/auth");
-const postRoute = require("./routes/api/post");
-const voteRoute = require("./routes/api/vote");
+const userRoute = require("./routes/user.routes");
+const authRoute = require("./routes/auth.routes");
+const postRoute = require("./routes/post.routes");
+const voteRoute = require("./routes/vote.routes");
 
 dotenv.config();
 const app = express();
