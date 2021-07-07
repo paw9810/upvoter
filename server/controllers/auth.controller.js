@@ -31,7 +31,7 @@ exports.register = async (req, res) => {
 
     return res.status(201).send(`successfully registered ${name}`);
   } catch (err) {
-    return res.status(400).send(err);
+    return res.status(400).send(err.message);
   }
 };
 
@@ -94,7 +94,6 @@ exports.login = async (req, res) => {
 exports.refresh = async (req, res) => {
   try {
     const refreshToken = req.cookies.JWTREFRESH;
-    console.log(typeof refreshToken);
     if (refreshToken === null || refreshToken === undefined)
       return res.sendStatus(401);
 

@@ -5,7 +5,8 @@
   "main": "servere.js",
   "scripts": {
     "start": "node server",
-    "dev": "nodemon server"
+    "dev": "nodemon server",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -24,6 +25,9 @@
     "sequelize-cli": "^6.2.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "jest": "^27.0.6",
+    "nodemon": "^2.0.7",
+    "superagent": "^6.1.0",
+    "supertest": "^6.1.3"
   }
 }
