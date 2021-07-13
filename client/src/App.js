@@ -5,6 +5,10 @@ import MainView from "./views/MainView";
 import ProfileView from "./views/ProfileView";
 import LoginView from "./views/LoginView";
 import RegisterView from "./views/RegisterView";
+import axios from "axios";
+import { API } from "./config";
+
+axios.defaults.baseURL = API;
 
 const App = () => {
   return (

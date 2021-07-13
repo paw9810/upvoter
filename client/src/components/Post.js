@@ -13,7 +13,6 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Grid from "@material-ui/core/Grid";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
-
 //test image
 import image from "../img/testimage.jpg";
 
@@ -33,7 +32,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Post = () => {
+const Post = ({ data, imgPath }) => {
   const classes = useStyles();
 
   return (
@@ -42,25 +41,29 @@ const Post = () => {
         <Card>
           <CardActions className={classes.padding}>
             <Button size="medium" color="primary">
-              Title
+              {data.title}
             </Button>
           </CardActions>
           <CardActions className={classes.padding}>
             <Button size="small" color="secondary">
-              Author
+              {data.user.name}
             </Button>
           </CardActions>
           <CardContent className={classes.desc}>
             <Typography variant="body2" color="textSecondary" component="p">
-              tagi tagi tagi tagi
+              {data.tags}
             </Typography>
           </CardContent>
           <CardActionArea>
             {/* test image */}
-            <CardMedia className={classes.media} image={image} title="metin" />
+            <CardMedia
+              className={classes.media}
+              image={imgPath}
+              title="metin"
+            />
           </CardActionArea>
           <CardActions>
-            <Grid container justify="center">
+            <Grid container justifyContent="center">
               <ButtonGroup
                 variant="contained"
                 color="primary"
@@ -69,7 +72,7 @@ const Post = () => {
                 <Button>
                   <ThumbUpIcon />
                 </Button>
-                <Button variant="text">450</Button>
+                <Button variant="text">{data.rating}</Button>
                 <Button color="secondary">
                   <ThumbDownIcon />
                 </Button>
