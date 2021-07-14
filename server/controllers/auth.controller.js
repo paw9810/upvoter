@@ -27,7 +27,7 @@ exports.register = async (req, res) => {
         karma: 0,
         role: "user",
       });
-    } else return res.sendStatus(400);
+    } else return res.status(400).send("all fields are required");
 
     return res.status(201).send(`successfully registered ${name}`);
   } catch (err) {
@@ -55,7 +55,7 @@ exports.login = async (req, res) => {
           { id: user.id },
           process.env.TOKEN_SECRET,
           {
-            expiresIn: 20,
+            expiresIn: 86400,
             // expiresIn: 86400,
           }
         );
@@ -79,12 +79,15 @@ exports.login = async (req, res) => {
           maxAge: 86400000,
           httpOnly: true,
         });
-        res.status(200).send("successfully logged in");
+        res.status(200).json({
+          message: "successfully logged in",
+          user: name,
+        });
       } else {
-        res.status(401).send("invalid password");
+        res.status(400).send("invalid password");
       }
     } else {
-      res.status(401).send("user does not exist");
+      res.status(400).send("user does not exist");
     }
   } catch (err) {
     res.status(400).send(err.message);
@@ -105,7 +108,7 @@ exports.refresh = async (req, res) => {
 
     const accessToken = jwt.sign({ id: decoded.id }, process.env.TOKEN_SECRET, {
       // expiresIn: 86400,
-      expiresIn: 20,
+      expiresIn: 86400,
     });
 
     res.cookie("JWT", accessToken, {

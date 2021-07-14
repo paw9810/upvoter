@@ -10,6 +10,10 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link as RouterLink } from "react-router-dom";
+import { useForm, Controller } from "react-hook-form";
+import axios from "axios";
+import { useContext } from "react";
+import AuthContext from "../contexts/authContext";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -32,7 +36,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignIn = () => {
+  const { setUser, setIsAuthenticated } = useContext(AuthContext);
   const classes = useStyles();
+  const { control, handleSubmit } = useForm();
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post("/auth/login", data);
+      setUser(response.data.user);
+      setIsAuthenticated(true);
+      alert(`successfully logged in ${response.data.user}`);
+    } catch (err) {
+      alert("wrong login or password");
+      console.log(err);
+    }
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -44,28 +61,44 @@ const SignIn = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
+        <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+          <Controller
+            name="name"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                {...field}
+                autoComplete="name"
+                name="name"
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="name"
+                label="Name"
+                autoFocus
+              />
+            )}
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
+          <Controller
             name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                {...field}
+                variant="outlined"
+                required
+                margin="normal"
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+            )}
           />
           <Button
             type="submit"
@@ -77,11 +110,6 @@ const SignIn = () => {
             Sign In
           </Button>
           <Grid container>
-            <Grid item xs>
-              <Link component={RouterLink} to="/" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
             <Grid item>
               <Link component={RouterLink} to="/signup" variant="body2">
                 {"Don't have an account? Sign Up"}

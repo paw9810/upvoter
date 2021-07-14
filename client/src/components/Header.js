@@ -18,6 +18,8 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "../contexts/authContext";
 
 const useStyles = makeStyles({
   margin: {
@@ -30,6 +32,7 @@ const useStyles = makeStyles({
 });
 
 const Header = ({ location }) => {
+  const { user, isAuthenticated } = useContext(AuthContext);
   const [menuState, setMenuState] = useState(false);
   const classes = useStyles();
 
@@ -69,46 +72,56 @@ const Header = ({ location }) => {
                     <ListItemText primary="Home" />
                   </ListItem>
                 </Link>
-                <Link to="/signin" className={classes.links}>
-                  <ListItem button>
-                    <ListItemIcon>
-                      <VpnKeyIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Login" />
-                  </ListItem>
-                </Link>
-                <Link to="/signup" className={classes.links}>
-                  <ListItem button>
-                    <ListItemIcon>
-                      <VpnKeyIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Register" />
-                  </ListItem>
-                </Link>
-                <Link to="/profile" className={classes.links}>
-                  <ListItem button>
-                    <ListItemIcon>
-                      <AccountCircleIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Profile" />
-                  </ListItem>
-                </Link>
-                <Link to="/" className={classes.links}>
-                  <ListItem button>
-                    <ListItemIcon>
-                      <AddCircleIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Add post" />
-                  </ListItem>
-                </Link>
-                <Link to="/" className={classes.links}>
-                  <ListItem button>
-                    <ListItemIcon>
-                      <ExitToAppIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Logout" />
-                  </ListItem>
-                </Link>
+                {!isAuthenticated && (
+                  <Link to="/signin" className={classes.links}>
+                    <ListItem button>
+                      <ListItemIcon>
+                        <VpnKeyIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Login" />
+                    </ListItem>
+                  </Link>
+                )}
+                {!isAuthenticated && (
+                  <Link to="/signup" className={classes.links}>
+                    <ListItem button>
+                      <ListItemIcon>
+                        <VpnKeyIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Register" />
+                    </ListItem>
+                  </Link>
+                )}
+                {isAuthenticated && (
+                  <Link to={`/user/${user}`} className={classes.links}>
+                    <ListItem button>
+                      <ListItemIcon>
+                        <AccountCircleIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Profile" />
+                    </ListItem>
+                  </Link>
+                )}
+                {isAuthenticated && (
+                  <Link to="/" className={classes.links}>
+                    <ListItem button>
+                      <ListItemIcon>
+                        <AddCircleIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Add post" />
+                    </ListItem>
+                  </Link>
+                )}
+                {isAuthenticated && (
+                  <Link to="/" className={classes.links}>
+                    <ListItem button>
+                      <ListItemIcon>
+                        <ExitToAppIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Logout" />
+                    </ListItem>
+                  </Link>
+                )}
               </div>
             </List>
           </Drawer>
