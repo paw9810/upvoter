@@ -13,8 +13,9 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Grid from "@material-ui/core/Grid";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
+import { Link } from "react-router-dom";
 //test image
-import image from "../img/testimage.jpg";
+//import image from "../img/testimage.jpg";
 
 const useStyles = makeStyles({
   media: {
@@ -45,9 +46,17 @@ const Post = ({ data, imgPath }) => {
             </Button>
           </CardActions>
           <CardActions className={classes.padding}>
-            <Button size="small" color="secondary">
+            <Link
+              component={Button}
+              to={`/user/${data.user.name}`}
+              size="small"
+              color="secondary"
+            >
               {data.user.name}
-            </Button>
+            </Link>
+            {/* <Button size="small" color="secondary">
+              {data.user.name}
+            </Button> */}
           </CardActions>
           <CardContent className={classes.desc}>
             <Typography variant="body2" color="textSecondary" component="p">

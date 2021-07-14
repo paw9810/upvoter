@@ -4,12 +4,10 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
-import testimg from "../img/testimage.jpg";
 
 const useStyles = makeStyles({
   media: {
@@ -24,7 +22,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Profile = () => {
+const Profile = ({ data, imgPath }) => {
   const classes = useStyles();
 
   return (
@@ -35,7 +33,7 @@ const Profile = () => {
             <Button>
               <CardMedia
                 className={classes.media}
-                image={testimg}
+                image={imgPath}
                 title="Paella dish"
               />
             </Button>
@@ -43,15 +41,15 @@ const Profile = () => {
               <Grid container spacing={2} direction="column">
                 <Grid item>
                   <Typography variant="h6" component="p">
-                    Profile name
+                    {data.name}
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <Typography variant="p" component="span">
+                  <Typography variant="body1" component="span">
                     {`Karma: `}
                   </Typography>
-                  <Typography variant="p" component="span">
-                    250
+                  <Typography variant="body1" component="span">
+                    {data.karma}
                   </Typography>
                 </Grid>
               </Grid>

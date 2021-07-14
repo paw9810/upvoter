@@ -7,7 +7,6 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import Post from "./Post";
 import Comment from "./Comment";
 
 function TabPanel(props) {
@@ -73,7 +72,7 @@ const ProfilePostList = () => {
           </Tabs>
         </Paper>
         <TabPanel value={value} index={0}>
-          <Post />
+          {/* <Post /> */}
         </TabPanel>
         <TabPanel value={value} index={1}>
           <Comment />

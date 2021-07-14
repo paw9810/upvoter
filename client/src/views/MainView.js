@@ -1,21 +1,22 @@
 import React from "react";
 import Header from "../components/Header";
 import Post from "../components/Post.js";
-import Grid from "@material-ui/core/Grid";
 import Pagination from "../components/Pagination";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { API } from "../config";
+import { useParams } from "react-router-dom";
 
 const MainView = () => {
+  let { defaultPage } = useParams();
   const postImagePath = `${API}/media/posts/`;
   const [data, setData] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [loaded, setLoaded] = useState(false);
-  const [page, setPage] = useState(1);
+
   useEffect(() => {
-    getPosts(page);
-  }, [page]);
+    getPosts(defaultPage);
+  }, [defaultPage]);
 
   const getPosts = async (page) => {
     try {
@@ -29,11 +30,6 @@ const MainView = () => {
     }
   };
 
-  const handlePage = (e) => {
-    setPage(e.currentTarget.value);
-    window.scrollTo(0, 0);
-  };
-
   if (data)
     return (
       <div>
@@ -43,7 +39,7 @@ const MainView = () => {
             <Post key={i} data={post} imgPath={postImagePath + post.location} />
           ))}
 
-        <Pagination handlePage={handlePage} pages={pageCount} />
+        <Pagination pages={pageCount} />
       </div>
     );
 };

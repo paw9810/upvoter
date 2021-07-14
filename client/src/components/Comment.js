@@ -35,14 +35,14 @@ const Comment = () => {
               title="Paella dish"
             />
             <CardActions>
-              <Typography variant="p" component="p">
+              <Typography variant="body1" component="span">
                 Profile name
               </Typography>
             </CardActions>
           </Button>
           <Divider />
           <CardContent>
-            <Typography variant="p" component="p">
+            <Typography variant="body1" component="span">
               Super komentarz lorem ipsum sadk asdasd asl das sa
             </Typography>
           </CardContent>
