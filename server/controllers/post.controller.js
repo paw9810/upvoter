@@ -38,10 +38,9 @@ exports.addPost = async (req, res) => {
       0,
       decoded.id
     );
+    res.status(201).send("succesfully added image");
   } catch (err) {
     console.log(err);
     res.status(400);
   }
-
-  res.status(201).send("succesfully added image");
 };

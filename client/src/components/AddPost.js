@@ -27,24 +27,21 @@ const useStyles = makeStyles((theme) => ({
 
 const AddPost = () => {
   const classes = useStyles();
-  const { control, handleSubmit } = useForm();
+  const { control, register, handleSubmit } = useForm();
   let formData = new FormData();
-
-  const selectFile = (e) => {
-    const file = e.currentTarget.files[0];
-    formData.append("postImage", file);
-  };
 
   const onSubmit = async (data) => {
     try {
+      formData.append("postImage", data.postImage[0]);
       formData.append("title", data.title);
       formData.append("tags", data.tags);
-      await axios.post("/posts/addPost", formData, {
+      const response = await axios.post("/posts/addPost", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
         withCredentials: true,
       });
+      alert(response.data);
     } catch (err) {
       console.log(err);
     }
@@ -57,23 +54,16 @@ const AddPost = () => {
           Add new post
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-          <Controller
-            name="postImage"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <Button variant="contained" component="label">
-                Upload File
-                <input
-                  onChange={selectFile}
-                  type="file"
-                  id="postImage"
-                  name="postImage"
-                  hidden
-                />
-              </Button>
-            )}
-          />
+          <Button variant="contained" component="label">
+            Add Image
+            <input
+              {...register("postImage", { required: true })}
+              type="file"
+              id="postImage"
+              name="postImage"
+              hidden
+            />
+          </Button>
           <Controller
             name="title"
             control={control}
