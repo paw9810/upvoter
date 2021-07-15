@@ -11,6 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link as RouterLink } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,12 +34,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignUp = () => {
+  let history = useHistory();
   const classes = useStyles();
   const { control, handleSubmit } = useForm();
   const onSubmit = async (data) => {
     try {
       const response = await axios.post("/auth/register", data);
       alert(response.data);
+      history.push("/signin");
     } catch (err) {
       alert("user already exists, wrong email or password too short");
       console.log(err);

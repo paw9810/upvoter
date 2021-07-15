@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Redirect } from "react-router-dom";
 import PostView from "./views/PostView";
 import MainView from "./views/MainView";
 import ProfileView from "./views/ProfileView";
@@ -15,6 +10,8 @@ import axios from "axios";
 import { API } from "./config";
 import { useState, useEffect } from "react";
 import AuthContext from "./contexts/authContext";
+import PrivateRoute from "./components/PrivateRoute";
+import PublicRoute from "./components/PublicRoute";
 
 axios.defaults.baseURL = API;
 
@@ -38,32 +35,30 @@ const App = () => {
     <AuthContext.Provider value={value}>
       <Router>
         <Switch>
-          <Route exact path="/">
+          <PublicRoute restricted={false} exact path="/">
             <Redirect to="/p/1" />
-          </Route>
-          <Route path="/p/:defaultPage">
+          </PublicRoute>
+          <PublicRoute restricted={false} path="/p/:defaultPage">
             <MainView />
-          </Route>
-          <Route exact path="/user/:profileName">
+          </PublicRoute>
+          <PublicRoute restricted={false} exact path="/user/:profileName">
             <ProfileView />
-          </Route>
-          <Route path="/post/:postImage">
+          </PublicRoute>
+          <PublicRoute restricted={false} path="/post/:postImage">
             <PostView />
-          </Route>
-          <Route exact path="/signin">
-            {isAuthenticated && <Redirect to="/p/1" />}
+          </PublicRoute>
+          <PublicRoute restricted={true} exact path="/signin">
             <LoginView />
-          </Route>
-          <Route exact path="/signup">
+          </PublicRoute>
+          <PublicRoute restricted={true} exact path="/signup">
             <RegisterView />
-          </Route>
-          <Route exact path="/logout">
+          </PublicRoute>
+          <PrivateRoute exact path="/logout">
             <Redirect to="/p/1" />
-          </Route>
-          <Route exact path="/addPost">
-            {!isAuthenticated && <Redirect to="/p/1" />}
+          </PrivateRoute>
+          <PrivateRoute exact path="/addPost">
             <AddPostView />
-          </Route>
+          </PrivateRoute>
         </Switch>
       </Router>
     </AuthContext.Provider>
