@@ -4,15 +4,11 @@ const postService = require("../services/post.service");
 
 exports.getPost = async (req, res) => {
   try {
-    const postId = req.params.postId;
-    const post = await postService.getPost(postId);
+    const postImage = req.query.postImage;
+    console.log(postImage);
+    const post = await postService.getPost(postImage);
 
-    res.status(200).json({
-      title: post.title,
-      location: post.location,
-      tags: post.tags,
-      rating: post.rating,
-    });
+    res.status(200).json(post);
   } catch (err) {
     res.status(404).send("post not found");
   }

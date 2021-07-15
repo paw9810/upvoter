@@ -47,7 +47,7 @@ const App = () => {
           <Route exact path="/user/:profileName">
             <ProfileView />
           </Route>
-          <Route exact path="/post">
+          <Route path="/post/:postImage">
             <PostView />
           </Route>
           <Route exact path="/signin">
@@ -61,6 +61,7 @@ const App = () => {
             <Redirect to="/p/1" />
           </Route>
           <Route exact path="/addPost">
+            {!isAuthenticated && <Redirect to="/p/1" />}
             <AddPostView />
           </Route>
         </Switch>

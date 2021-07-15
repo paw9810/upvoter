@@ -41,9 +41,14 @@ const Post = ({ data, imgPath }) => {
       <Container maxWidth="sm">
         <Card>
           <CardActions className={classes.padding}>
-            <Button size="medium" color="primary">
+            <Link
+              component={Button}
+              to={`/post/${data.location}`}
+              size="medium"
+              color="primary"
+            >
               {data.title}
-            </Button>
+            </Link>
           </CardActions>
           <CardActions className={classes.padding}>
             <Link
@@ -54,9 +59,6 @@ const Post = ({ data, imgPath }) => {
             >
               {data.user.name}
             </Link>
-            {/* <Button size="small" color="secondary">
-              {data.user.name}
-            </Button> */}
           </CardActions>
           <CardContent className={classes.desc}>
             <Typography variant="body2" color="textSecondary" component="p">
@@ -64,12 +66,13 @@ const Post = ({ data, imgPath }) => {
             </Typography>
           </CardContent>
           <CardActionArea>
-            {/* test image */}
-            <CardMedia
-              className={classes.media}
-              image={imgPath}
-              title="metin"
-            />
+            <Link to={`/post/${data.location}`}>
+              <CardMedia
+                className={classes.media}
+                image={imgPath}
+                title={data.title}
+              />
+            </Link>
           </CardActionArea>
           <CardActions>
             <Grid container justifyContent="center">

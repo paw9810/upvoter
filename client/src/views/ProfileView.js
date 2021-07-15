@@ -28,7 +28,7 @@ const ProfileView = () => {
   };
   return (
     <div>
-      <Header location="Your profile" />
+      <Header location="Profile" />
       {loaded && (
         <Profile data={data} imgPath={profileImagePath + data.imageLocation} />
       )}
