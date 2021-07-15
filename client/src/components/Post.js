@@ -14,6 +14,10 @@ import Grid from "@material-ui/core/Grid";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
+import AuthContext from "../contexts/authContext";
+import { useContext } from "react";
 //test image
 //import image from "../img/testimage.jpg";
 
@@ -35,6 +39,25 @@ const useStyles = makeStyles({
 
 const Post = ({ data, imgPath }) => {
   const classes = useStyles();
+  const { user } = useContext(AuthContext);
+  const [rating, setRating] = useState(data.rating);
+
+  const handleVote = async (event) => {
+    const voteType = event.currentTarget.name === "true";
+    const voteData = {
+      userName: user,
+      postId: data.id,
+      upvote: voteType,
+    };
+    try {
+      const response = await axios.post("/votes/vote", voteData, {
+        withCredentials: true,
+      });
+      setRating(response.data.result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Box className={classes.margin}>
@@ -81,11 +104,11 @@ const Post = ({ data, imgPath }) => {
                 color="primary"
                 aria-label="contained primary button group"
               >
-                <Button>
+                <Button onClick={handleVote} name="true">
                   <ThumbUpIcon />
                 </Button>
-                <Button variant="text">{data.rating}</Button>
-                <Button color="secondary">
+                <Button variant="text">{rating}</Button>
+                <Button onClick={handleVote} name="false" color="secondary">
                   <ThumbDownIcon />
                 </Button>
               </ButtonGroup>

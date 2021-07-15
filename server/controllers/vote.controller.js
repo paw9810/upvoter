@@ -1,28 +1,38 @@
 const voteService = require("../services/vote.service");
+const db = require("../models");
 
 exports.vote = async (req, res) => {
   try {
-    const userId = req.body.userId;
+    const username = req.body.userName;
+    const getUser = await db.user.findOne({ where: { name: username } });
+    const userId = getUser.id;
     const postId = req.body.postId;
     const upvote = req.body.upvote;
     const isVoted = await voteService.isAlreadyVoted(userId, postId);
     const voteType = isVoted.voteType;
     const voteId = isVoted.voteId;
     if (voteType === null) {
-      upvote
-        ? await voteService.createVote("up", userId, postId)
-        : await voteService.createVote("down", userId, postId);
-      res.status(201).send("success");
+      if (upvote) {
+        const result = await voteService.createVote("up", userId, postId);
+        res.status(201).json({ result: result });
+      } else {
+        const result = await voteService.createVote("down", userId, postId);
+        res.status(201).json({ result: result });
+      }
     } else if (voteType === "down") {
-      upvote
-        ? await voteService.updateVote("up", voteId, postId)
-        : res.status(400).send("already voted");
-      res.status(201).send("success");
+      if (upvote) {
+        const result = await voteService.updateVote("up", voteId, postId);
+        res.status(201).json({ result: result });
+      } else {
+        res.status(400).send("already voted");
+      }
     } else if (voteType === "up") {
-      upvote
-        ? res.status(400).send("already voted")
-        : await voteService.updateVote("down", voteId, postId);
-      res.status(201).send("success");
+      if (upvote) {
+        res.status(400).send("already voted");
+      } else {
+        const result = await voteService.updateVote("down", voteId, postId);
+        res.status(201).json({ result: result });
+      }
     }
   } catch (err) {
     console.log(err.message);

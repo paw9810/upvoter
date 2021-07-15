@@ -30,18 +30,22 @@ exports.createVote = async (voteType, userId, postId) => {
 
   const post = await db.post.findOne({ where: { id: postId } });
   if (voteType === "up") {
-    post.increment("rating");
+    await post.increment("rating");
   } else if (voteType === "down") {
-    post.decrement("rating");
+    await post.decrement("rating");
   }
+  const refreshed = await post.reload();
+  return refreshed.rating;
 };
 
 exports.updateVote = async (voteType, voteId, postId) => {
   await db.vote.update({ voteType: voteType }, { where: { id: voteId } });
   const post = await db.post.findOne({ where: { id: postId } });
   if (voteType === "up") {
-    post.increment("rating", { by: 2 });
+    await post.increment("rating", { by: 2 });
   } else if (voteType === "down") {
-    post.decrement("rating", { by: 2 });
+    await post.decrement("rating", { by: 2 });
   }
+  const refreshed = await post.reload();
+  return refreshed.rating;
 };
