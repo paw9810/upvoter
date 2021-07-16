@@ -8,13 +8,14 @@ const useStyles = makeStyles({
   },
 });
 
-const CommentSection = () => {
+const CommentSection = ({ comments }) => {
   const classes = useStyles();
 
   return (
     <section className={classes.commentSection}>
-      <Comment />
-      <Comment />
+      {comments.map((comment, i) => (
+        <Comment key={i} data={comment} />
+      ))}
     </section>
   );
 };

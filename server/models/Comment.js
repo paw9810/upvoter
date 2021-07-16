@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
+      hasChildren: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+      },
       text: {
         type: DataTypes.TEXT,
         allowNull: false,

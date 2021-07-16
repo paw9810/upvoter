@@ -9,7 +9,10 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import CardMedia from "@material-ui/core/CardMedia";
 import Divider from "@material-ui/core/Divider";
-import testimg from "../img/testimage.jpg";
+import { API } from "../config";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 const useStyles = makeStyles({
   media: {
@@ -21,31 +24,55 @@ const useStyles = makeStyles({
   },
 });
 
-const Comment = () => {
+const Comment = ({ data }) => {
   const classes = useStyles();
+  const [comments, setComments] = useState([]);
+  const profileImagePath = `${API}/media/profile/`;
 
+  const handleChildren = async () => {
+    try {
+      const response = await axios.get(
+        `/comments/getChildComments?postId=${data.postId}&parentComment=${data.id}`
+      );
+      if (response.data.length !== 0) setComments(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <Box className={classes.commentMargin}>
       <Container maxWidth="sm">
         <Card>
-          <Button>
+          <Link
+            component={Button}
+            to={`/user/${data.user.name}`}
+            size="small"
+            color="secondary"
+          >
             <CardMedia
               className={classes.media}
-              image={testimg}
+              image={profileImagePath + data.user.imageLocation}
               title="Paella dish"
             />
             <CardActions>
               <Typography variant="body1" component="span">
-                Profile name
+                {data.user.name}
               </Typography>
             </CardActions>
-          </Button>
+          </Link>
           <Divider />
           <CardContent>
             <Typography variant="body1" component="span">
-              Super komentarz lorem ipsum sadk asdasd asl das sa
+              {data.text}
             </Typography>
           </CardContent>
+          {data.hasChildren && <Divider />}
+          {data.hasChildren && (
+            <Button onClick={handleChildren}>Show answers</Button>
+          )}
+          {comments.map((comment, i) => (
+            <Comment key={i} data={comment} />
+          ))}
         </Card>
       </Container>
     </Box>

@@ -1,19 +1,38 @@
 const db = require("../models");
 
 exports.addComment = async (parentId, userId, postId, text) => {
-  await db.comment.create({
-    parentComment: parentId,
-    text: text,
-    postId: postId,
-    userId: userId,
-  });
+  try {
+    await db.comment.create({
+      parentComment: parentId,
+      hasChildren: false,
+      text: text,
+      postId: postId,
+      userId: userId,
+    });
+
+    if (parentId !== null) {
+      await db.comment.update(
+        { hasChildren: true },
+        { where: { id: parentId } }
+      );
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
 exports.getTopComments = async (postId) => {
   try {
     const result = await db.comment.findAll({
       where: { postId: postId, parentComment: null },
-      attributes: ["id", "text", "createdAt", "updatedAt", "postId"],
+      attributes: [
+        "id",
+        "hasChildren",
+        "text",
+        "createdAt",
+        "updatedAt",
+        "postId",
+      ],
       include: [
         {
           model: db.user,
@@ -32,7 +51,14 @@ exports.getChildComments = async (postId, parentComment) => {
   try {
     const result = await db.comment.findAll({
       where: { postId: postId, parentComment: parentComment },
-      attributes: ["id", "text", "createdAt", "updatedAt", "postId"],
+      attributes: [
+        "id",
+        "hasChildren",
+        "text",
+        "createdAt",
+        "updatedAt",
+        "postId",
+      ],
       include: [
         {
           model: db.user,
