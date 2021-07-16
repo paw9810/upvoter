@@ -15,11 +15,23 @@ exports.addComment = async (req, res) => {
   }
 };
 
-exports.getComments = async (req, res) => {
+exports.getTopComments = async (req, res) => {
   try {
     const postId = req.query.postId;
 
-    const result = await commentService.getComments(postId);
+    const result = await commentService.getTopComments(postId);
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+};
+
+exports.getChildComments = async (req, res) => {
+  try {
+    const postId = req.query.postId;
+    const parentComment = req.query.parentComment;
+
+    const result = await commentService.getChildComments(postId, parentComment);
     res.status(200).json(result);
   } catch (err) {
     res.status(400).send(err.message);
