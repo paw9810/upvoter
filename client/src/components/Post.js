@@ -39,13 +39,13 @@ const useStyles = makeStyles({
 
 const Post = ({ data, imgPath }) => {
   const classes = useStyles();
-  const { user } = useContext(AuthContext);
+  const { userId } = useContext(AuthContext);
   const [rating, setRating] = useState(data.rating);
 
   const handleVote = async (event) => {
     const voteType = event.currentTarget.name === "true";
     const voteData = {
-      userName: user,
+      userId: userId,
       postId: data.id,
       upvote: voteType,
     };

@@ -82,6 +82,7 @@ exports.login = async (req, res) => {
         res.status(200).json({
           message: "successfully logged in",
           user: name,
+          id: user.id,
         });
       } else {
         res.status(400).send("invalid password");

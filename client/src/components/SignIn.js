@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignIn = () => {
-  const { setUser, setIsAuthenticated } = useContext(AuthContext);
+  const { setUserId, setUser, setIsAuthenticated } = useContext(AuthContext);
   const classes = useStyles();
   const { control, handleSubmit } = useForm();
   const onSubmit = async (data) => {
@@ -44,6 +44,7 @@ const SignIn = () => {
       const response = await axios.post("/auth/login", data, {
         withCredentials: true,
       });
+      setUserId(response.data.id);
       setUser(response.data.user);
       setIsAuthenticated(true);
       alert(`successfully logged in ${response.data.user}`);

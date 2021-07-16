@@ -3,9 +3,7 @@ const db = require("../models");
 
 exports.vote = async (req, res) => {
   try {
-    const username = req.body.userName;
-    const getUser = await db.user.findOne({ where: { name: username } });
-    const userId = getUser.id;
+    const userId = req.body.userId;
     const postId = req.body.postId;
     const upvote = req.body.upvote;
     const isVoted = await voteService.isAlreadyVoted(userId, postId);
@@ -24,11 +22,13 @@ exports.vote = async (req, res) => {
         const result = await voteService.updateVote("up", voteId, postId);
         res.status(201).json({ result: result });
       } else {
-        res.status(400).send("already voted");
+        const result = await voteService.deleteVote("down", userId, postId);
+        res.status(201).json({ result: result });
       }
     } else if (voteType === "up") {
       if (upvote) {
-        res.status(400).send("already voted");
+        const result = await voteService.deleteVote("up", userId, postId);
+        res.status(201).json({ result: result });
       } else {
         const result = await voteService.updateVote("down", voteId, postId);
         res.status(201).json({ result: result });

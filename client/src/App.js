@@ -16,11 +16,20 @@ import PublicRoute from "./components/PublicRoute";
 axios.defaults.baseURL = API;
 
 const App = () => {
+  const [userId, setUserId] = useState(null);
   const [user, setUser] = useState("guest");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const value = { user, setUser, isAuthenticated, setIsAuthenticated };
+  const value = {
+    userId,
+    setUserId,
+    user,
+    setUser,
+    isAuthenticated,
+    setIsAuthenticated,
+  };
 
   useEffect(() => {
+    setUserId(localStorage.getItem("userId") || null);
     setUser(localStorage.getItem("user") || "guest");
     setIsAuthenticated(
       localStorage.getItem("isAuthenticated") === "true" || false
@@ -28,9 +37,10 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    localStorage.setItem("userId", userId);
     localStorage.setItem("user", user);
     localStorage.setItem("isAuthenticated", isAuthenticated);
-  }, [user, isAuthenticated]);
+  }, [userId, user, isAuthenticated]);
   return (
     <AuthContext.Provider value={value}>
       <Router>
@@ -56,7 +66,7 @@ const App = () => {
           <PrivateRoute exact path="/logout">
             <Redirect to="/p/1" />
           </PrivateRoute>
-          <PrivateRoute exact path="/addPost">
+          <PrivateRoute path="/addPost">
             <AddPostView />
           </PrivateRoute>
         </Switch>

@@ -49,3 +49,21 @@ exports.updateVote = async (voteType, voteId, postId) => {
   const refreshed = await post.reload();
   return refreshed.rating;
 };
+
+exports.deleteVote = async (voteType, userId, postId) => {
+  await db.vote.destroy({
+    where: {
+      userId: userId,
+      postId: postId,
+    },
+  });
+
+  const post = await db.post.findOne({ where: { id: postId } });
+  if (voteType === "up") {
+    await post.decrement("rating");
+  } else if (voteType === "down") {
+    await post.increment("rating");
+  }
+  const refreshed = await post.reload();
+  return refreshed.rating;
+};
