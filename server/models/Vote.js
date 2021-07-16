@@ -36,6 +36,10 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "vote",
     }
   );
+  Vote.associate = (models) => {
+    Vote.belongsTo(models.user);
+    Vote.belongsTo(models.post);
+  };
 
   return Vote;
 };

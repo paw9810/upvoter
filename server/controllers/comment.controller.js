@@ -20,10 +20,8 @@ exports.getComments = async (req, res) => {
     const postId = req.query.postId;
 
     const result = await commentService.getComments(postId);
-    console.log(result);
-
     res.status(200).json(result);
   } catch (err) {
-    res.ststus(400).send(err.message);
+    res.status(400).send(err.message);
   }
 };
