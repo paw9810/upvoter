@@ -35,7 +35,16 @@ module.exports = (sequelize, DataTypes) => {
   );
   Post.associate = (models) => {
     Post.belongsTo(models.user);
-    Post.belongsToMany(models.user, { through: models.vote });
+    Post.hasMany(models.vote, {
+      foreignKey: {
+        allowNull: false,
+      },
+    });
+    Post.hasMany(models.comment, {
+      foreignKey: {
+        allowNull: false,
+      },
+    });
   };
   return Post;
 };

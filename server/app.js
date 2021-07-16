@@ -9,6 +9,8 @@ const authRoute = require("./routes/auth.routes");
 const postRoute = require("./routes/post.routes");
 const voteRoute = require("./routes/vote.routes");
 const pageRoute = require("./routes/page.routes");
+const commentRoute = require("./routes/comment.routes");
+
 const cors = require("cors");
 dotenv.config();
 const app = express();
@@ -30,6 +32,7 @@ app.use("/auth", authRoute);
 app.use("/posts", postRoute);
 app.use("/votes", voteRoute);
 app.use("/page", pageRoute);
+app.use("/comments", commentRoute);
 
 app.use((req, res) => {
   res.status(404).send("404: page not found");

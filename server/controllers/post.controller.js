@@ -17,6 +17,7 @@ exports.getPost = async (req, res) => {
 exports.addPost = async (req, res) => {
   try {
     const fileName = `${Date.now()}_${req.files.postImage.name}`;
+    //todo: check if null
     const path = __dirname + "/../media/posts/" + fileName;
 
     const accessToken = req.cookies.JWT;
