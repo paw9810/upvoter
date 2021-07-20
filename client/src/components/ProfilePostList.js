@@ -75,7 +75,7 @@ const ProfilePostList = () => {
           {/* <Post /> */}
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <Comment />
+          {/* comment */}
         </TabPanel>
       </Container>
     </Box>

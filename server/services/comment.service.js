@@ -27,6 +27,7 @@ exports.getTopComments = async (postId) => {
       where: { postId: postId, parentComment: null },
       attributes: [
         "id",
+        "parentComment",
         "hasChildren",
         "text",
         "createdAt",
@@ -53,6 +54,7 @@ exports.getChildComments = async (postId, parentComment) => {
       where: { postId: postId, parentComment: parentComment },
       attributes: [
         "id",
+        "parentComment",
         "hasChildren",
         "text",
         "createdAt",
@@ -73,10 +75,29 @@ exports.getChildComments = async (postId, parentComment) => {
   }
 };
 
+const deleteChildren = async (parentId) => {
+  try {
+    const children = await db.comment.findAll({
+      where: { parentComment: parentId },
+    });
+    children.forEach(async (child) => {
+      if (child.hasChildren === true) {
+        await deleteChildren(child.id);
+      }
+      child.destroy();
+    });
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
 exports.deleteComment = async (commentId, tokenId) => {
   try {
     const comment = await db.comment.findOne({ where: { id: commentId } });
     if (tokenId === comment.userId) {
+      if (comment.hasChildren === true) {
+        await deleteChildren(comment.id);
+      }
       await comment.destroy();
     } else {
       throw new Error("unauthorized");
