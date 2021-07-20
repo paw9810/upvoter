@@ -22,10 +22,13 @@
   },
   "production": {
     "username": "root",
-    "password": null,
+    "password": "root",
     "database": "database_production",
-    "host": "127.0.0.1",
+    "host": "localhost",
     "dialect": "mysql",
+    "dialectOptions": {
+      "socketPath": "/cloudsql/upvoter-320413:europe-central2:root"
+    },
     "define": {
       "freezeTableName": "true"
     }

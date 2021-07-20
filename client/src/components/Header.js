@@ -33,7 +33,7 @@ const useStyles = makeStyles({
 });
 
 const Header = ({ location }) => {
-  const { user, setUser, isAuthenticated, setIsAuthenticated } =
+  const { setUserId, user, setUser, isAuthenticated, setIsAuthenticated } =
     useContext(AuthContext);
   const [menuState, setMenuState] = useState(false);
   const classes = useStyles();
@@ -51,9 +51,11 @@ const Header = ({ location }) => {
   const handleLogout = async () => {
     try {
       await axios.post("/auth/logout", undefined, { withCredentials: true });
+      setUserId(null);
       setUser("guest");
       setIsAuthenticated(false);
     } catch (err) {
+      setUserId(null);
       setUser("guest");
       setIsAuthenticated(false);
       console.log(err);
