@@ -5,7 +5,6 @@ const postService = require("../services/post.service");
 exports.getPost = async (req, res) => {
   try {
     const postImage = req.query.postImage;
-    console.log(postImage);
     const post = await postService.getPost(postImage);
 
     res.status(200).json(post);
@@ -18,6 +17,7 @@ exports.addPost = async (req, res) => {
   try {
     const fileName = `${Date.now()}_${req.files.postImage.name}`;
     //todo: check if null
+
     const path = __dirname + "/../media/posts/" + fileName;
 
     const accessToken = req.cookies.JWT;
@@ -35,7 +35,8 @@ exports.addPost = async (req, res) => {
       0,
       decoded.id
     );
-    res.status(201).send("succesfully added image");
+
+    res.status(201).send("success");
   } catch (err) {
     console.log(err);
     res.status(400);
