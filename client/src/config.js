@@ -1,1 +1,1 @@
-export const API = "https://upvoter-320413.appspot.com";
+export const API = "https://upvoter-heroku.herokuapp.com";
