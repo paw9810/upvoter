@@ -2,7 +2,6 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import CardMedia from "@material-ui/core/CardMedia";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useForm, Controller } from "react-hook-form";
@@ -57,7 +56,8 @@ const AddPost = () => {
       alert.show(response.data);
       history.push("/signin");
     } catch (err) {
-      console.log(err.response.data);
+      const data = err.response.data;
+      alert.show(data);
     }
   };
 

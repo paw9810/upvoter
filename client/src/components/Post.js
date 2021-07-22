@@ -18,6 +18,7 @@ import { useState } from "react";
 import axios from "axios";
 import AuthContext from "../contexts/authContext";
 import { useContext } from "react";
+import { useAlert } from "react-alert";
 //test image
 //import image from "../img/testimage.jpg";
 
@@ -38,6 +39,7 @@ const useStyles = makeStyles({
 });
 
 const Post = ({ data, imgPath }) => {
+  const alert = useAlert();
   const classes = useStyles();
   const { userId } = useContext(AuthContext);
   const [rating, setRating] = useState(data.rating);
@@ -55,6 +57,7 @@ const Post = ({ data, imgPath }) => {
       });
       setRating(response.data.result);
     } catch (err) {
+      alert.show("You have to be logged in to vote");
       console.log(err);
     }
   };

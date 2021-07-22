@@ -12,8 +12,10 @@ import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
 import AuthContext from "../contexts/authContext";
 import { useContext } from "react";
+import { useAlert } from "react-alert";
 
 const PostView = () => {
+  const alert = useAlert();
   const { control, handleSubmit } = useForm();
   let { postImage } = useParams();
   const postImagePath = `${API}/media/posts/`;
@@ -35,7 +37,7 @@ const PostView = () => {
       });
       await getTopComments(data.id);
     } catch (err) {
-      console.log(err);
+      alert.show("You have to be logged in to comment");
     }
   };
 

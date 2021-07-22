@@ -23,4 +23,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+#prod
 upvoter-320413-64eb6bab0fb9.json
+.env
+/media/posts/*
