@@ -15,9 +15,8 @@ exports.getPost = async (req, res) => {
 
 exports.addPost = async (req, res) => {
   try {
+    postService.checkIfImage(req.files.postImage.name);
     const fileName = `${Date.now()}_${req.files.postImage.name}`;
-    //todo: check if null
-
     const path = __dirname + "/../media/posts/" + fileName;
 
     const accessToken = req.cookies.JWT;
@@ -38,7 +37,7 @@ exports.addPost = async (req, res) => {
 
     res.status(201).send("success");
   } catch (err) {
-    console.log(err);
-    res.status(400);
+    if (err.message === "wrong extension") res.status(400).send(err.message);
+    else res.sendStatus(400);
   }
 };

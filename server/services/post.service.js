@@ -1,4 +1,5 @@
 const db = require("../models");
+const path = require("path");
 
 exports.getPost = async (postImage) => {
   const result = await db.post.findOne({
@@ -22,4 +23,18 @@ exports.createPost = async (title, location, tags, rating, userId) => {
     rating: rating,
     userId: userId,
   });
+};
+
+exports.checkIfImage = (name) => {
+  const extension = path.extname(name).toLowerCase();
+  switch (extension) {
+    case ".jpg":
+      return true;
+    case ".jpeg":
+      return true;
+    case ".png":
+      return true;
+    default:
+      throw new Error("wrong extension");
+  }
 };
